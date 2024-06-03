@@ -42,6 +42,33 @@ class AdminManager(BaseUserManager):
         admin_user.save(using=self._db)
         return admin_user
 
+# admin group manager for AdminGroup model
+class AdminGroupManager(models.Manager):
+    use_in_migrations = True
+
+    def get_by_natural_key(self,name):
+        return self.get(name=name)
+
+#Expand on this and include all permissions
+class AdminPermission(models.Model):
+    pass
+
+class AdminGroup(models.Model):
+    name = models.CharField(_("name"), max_length=150, unique=True)
+    permissions = models.ManyToManyField(
+        AdminPermission,
+        verbose_name=_("permissions"),
+        blank=True,
+    )
+    objects = AdminGroupManager()
+
+    class Meta:
+        verbose_name =_("admin group")
+        verbose_name_plural =_("admin groups")
+
+    def __str__(self):
+        return self.name
+
 
 
 class UserProfile(models.Model):
@@ -172,15 +199,16 @@ class AdminProfile(models.Model):
         related_name = 'admin_user',
         related_query_name='admin',
     )
+    # Fix this when you work on adminpermission class
 
-    user_permissions = models.Manager(
-        AdminPermission,
-        verbose_name =_("admin permissions"),
-        blank= True, 
-        help_text=_("Admin has all permissions."), #will specify all permissions later
-        related_name ="admin_set",
-        related_query_name ="admin",
-    )
+    # user_permissions = models.Manager(
+    #     AdminPermission,
+    #     verbose_name =_("admin permissions"),
+    #     blank= True, 
+    #     help_text=_("Admin has all permissions."), #will specify all permissions later
+    #     related_name ="admin_set",
+    #     related_query_name ="admin",
+    # )
     class Meta:
         verbose_name = _("user") 
         verbose_name_plural = _("users")
