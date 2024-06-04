@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from django import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse # allow us to send a response to the user
 
 # Create your views here.
-def detail(request, question_id):
-    return HttpResponse("Youre looking st this")
+
+def home(request):
+    """Render home page"""
+    return render(request, 'home.html')
