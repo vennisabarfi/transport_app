@@ -84,6 +84,20 @@ class UserProfile(models.Model):
         },
         )
 
+    email = models.EmailField(
+        _("email"),
+        max_length = 225, #change this if need be
+        blank = False,
+        unique = True,
+        default = 'user@email.com',
+        help_text= _("Email is required and must be 225 characters or fewer."),
+        error_messages={
+            'unique': _('Email address must be unique. Another user exists with this email address.'),
+            'blank': _('Email cannot be left blank.'),
+            'max_length':_('Email must be 225 characters or fewer.'),
+        },
+    )
+
     first_name  = models.CharField(
         _("first_name"),
           max_length=150, 

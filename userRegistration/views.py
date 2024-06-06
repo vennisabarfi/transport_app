@@ -16,6 +16,7 @@ def home(request):
 
 #register a new user
 def register(request):
+    """Render register page and handle user registration. Sends email to user to confirm registration."""
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -27,8 +28,8 @@ def register(request):
             messages.info(request, "Thank you for signing up!"
                            "You have logged in successfully.", extra_tags ='alert alert-success')
             auth.login(request, user)
-            return redirect(reverse('profile'))
-        else:
+            return redirect(reverse('profile')) #redirect to profile page
+        else: #login error message
             messages.error(request, "Unable to log in. Please contact us or your admin",
                            extra_tags='alert alert-danger')
             
@@ -38,3 +39,29 @@ def register(request):
     args = {'form': form}
     args.update(csrf(request))
     return render(request, 'register.html', args)
+
+# user login capabilities
+def login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(request.POSTT)
+        if form.is_valid():
+            form.save()
+            user = auth.authenticate(email=request.POST.get('email'),
+                                     password=request.POST.get('password1'))
+    
+        if user is not None:
+            auth.login(request,user)
+            messages.success(request, "You have successfully logged in",
+                             extra_tags = 'alert alert-success')
+            return redirect(reverse('profile'))
+        else:
+            form.add_error(None,
+                           "Please try again. Your email or password is incorrect")
+    
+    else:
+        form = UserLoginForm()
+
+    args = {'form': form}
+    args.update(csrf(request))
+    return render(request, 'login.html', args)
+

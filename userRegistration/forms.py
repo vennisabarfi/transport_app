@@ -123,11 +123,11 @@ class UserRegistrationForm(UserCreationForm):
             for field in self.fields.values():
                 field.required = False #change after consideration
         
-        class UserLoginForm(forms.Form):
-         # Form to authenticate user using email and password
+class UserLoginForm(forms.Form):
+    # Form to authenticate user using email and password
 
-             email = forms.EmailField()
-             password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
 
 
-             #remove username field if password used?
+    #remove username field if password used?
