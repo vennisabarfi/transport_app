@@ -134,7 +134,7 @@ class UserProfile(models.Model):
 
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ["email", "username", "first_name", "last_name"]
+    REQUIRED_FIELDS = ["email", "username", "first name", "last name"]
 
     class Meta:
         verbose_name = _("user") 

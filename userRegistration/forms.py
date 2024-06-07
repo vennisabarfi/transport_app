@@ -7,7 +7,7 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
             model = UserProfile
-            fields =["email", "password", "username","first name", "last name"] #included fields in form
+            fields =["email", "username","first_name", "last_name"] #included fields in form
         #inherits password1 and password2 functionalities from UserCreationForm Django template
             
     def clean_username(self):
