@@ -5,6 +5,9 @@ from django.contrib import messages, auth
 from django.urls import reverse
 from django.core.mail import send_mail #send confirmation emails to users 
 from django.template.context_processors import csrf
+from django import template
+from userRegistration.models import UserProfile
+
 # Create your views here.
 
 
@@ -43,9 +46,8 @@ def register(request):
 # user login capabilities
 def login(request):
     if request.method == 'POST':
-        form = UserLoginForm(request.POSTT)
+        form = UserLoginForm(request.POST)
         if form.is_valid():
-            form.save()
             user = auth.authenticate(email=request.POST.get('email'),
                                      password=request.POST.get('password1'))
     
@@ -65,3 +67,15 @@ def login(request):
     args.update(csrf(request))
     return render(request, 'login.html', args)
 
+#profile page
+
+def profile(request):
+    user = request.user
+
+    if user.is_admin:
+        pass # add stuff here
+    else:
+        pass #render regular users here
+
+
+    return render(request, 'profile.html')

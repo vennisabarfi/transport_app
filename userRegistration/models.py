@@ -84,6 +84,7 @@ class UserProfile(models.Model):
         },
         )
 
+
     email = models.EmailField(
         _("email"),
         max_length = 225, #change this if need be
@@ -99,7 +100,7 @@ class UserProfile(models.Model):
     )
 
     first_name  = models.CharField(
-        _("first_name"),
+        _("first name"),
           max_length=150, 
           null=True, 
           blank=False, 
@@ -107,7 +108,7 @@ class UserProfile(models.Model):
               "blank" :_("This field cannot be blank. First name is required")
           })
     last_name  = models.CharField(
-        _("last_name"),
+        _("last name"),
           max_length=150, 
           null=True, 
           blank=False, 
@@ -133,7 +134,7 @@ class UserProfile(models.Model):
 
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ["email", "username"]
+    REQUIRED_FIELDS = ["email", "username", "first_name", "last_name"]
 
     class Meta:
         verbose_name = _("user") 
@@ -151,7 +152,8 @@ class UserProfile(models.Model):
         return self.first_name
 
     def __str__(self):
-        return self.username
+        return self.username, self.first_name, self.last_name
+    
 
 class AdminProfile(models.Model):
     username = models.CharField(

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    
 </head>
 <body>
 <div class="container">
@@ -16,7 +16,11 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Login</button>
+        <button type="reset" class="btn btn-primary" value="Reset"> Reset Login Information</button>
     </form>
+    <a href="{% url 'register' %}" class="btn btn-primary">Register Here</a>
+    
+    
 </div>
 </body>
 </html>
