@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from userRegistration.models import UserProfile # import userprofile from models.py
-from django.contrib.auth.hashers import make_password #save password in database
+from django.contrib.auth.hashers import MD5PasswordHasher #save password in database
 
 class UserRegistrationForm(UserCreationForm):
 
@@ -35,7 +35,7 @@ class UserRegistrationForm(UserCreationForm):
                 
             
     def clean_first_name(self):
-        first_name = self.cleaned.get('first name')
+        first_name = self.cleaned_data.get('first name')
         if not first_name:
             message = "Please enter your first name"
             raise forms.ValidationError(message)
@@ -43,7 +43,7 @@ class UserRegistrationForm(UserCreationForm):
         
             
     def clean_last_name(self):
-        last_name = self.cleaned.get('last name')
+        last_name = self.cleaned_data.get('last name')
         if not last_name:
             message = "Please enter your last name"
             raise forms.ValidationError(message)
@@ -57,7 +57,7 @@ class UserRegistrationForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
-        user.password = make_password(self.cleaned_data['password'])
+        user.password = MD5PasswordHasher(self.cleaned_data['password'])
         if commit:
             user.save()
         return user

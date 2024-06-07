@@ -23,15 +23,21 @@ def register(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=True)
+            UserProfile.objects.create(
+                username =request.POST.get('username'),
+                email = request.POST.get('email'),
+                first_name = request.POST.get('first_name'),
+                last_name = request.POST.get('last_name')
+            )
             user = auth.authenticate(email=request.POST.get('email'),
                                      password=request.POST.get('password1'))
-        if user:
-            send_mail(request,user) 
-            messages.info(request, "Thank you for signing up!"
-                           "You have logged in successfully.", extra_tags ='alert alert-success')
+            # if user:
+            #     send_mail(request,user) 
+            #     messages.info(request, "Thank you for signing up!"
+            #                "You have logged in successfully.", extra_tags ='alert alert-success')
             auth.login(request, user)
-            return redirect(reverse('profile')) #redirect to profile page
+            return redirect('profile') #redirect to profile page
         else: #login error message
             messages.error(request, "Unable to log in. Please contact us or your admin",
                            extra_tags='alert alert-danger')

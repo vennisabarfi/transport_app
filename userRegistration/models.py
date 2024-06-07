@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _ #allow internationalization
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import BCryptSHA256PasswordHasher
 
 
 
@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         username = username.strip()
         user = self.model(username=username, email=email, **extra_fields)
-        user.make_password(password)
+        user.BCryptSHA256PasswordHasher(password)
         user.save(using=self._db)
         return user
     # manage admins 
@@ -38,7 +38,7 @@ class AdminManager(BaseUserManager):
         email = self.normalize_email(email)
         username = username.strip()
         admin_user = self.model(username=username, email=email, **extra_fields)
-        admin_user.make_password(password)
+        admin_user.MD5PasswordHasher(password)
         admin_user.save(using=self._db)
         return admin_user
 
@@ -74,7 +74,7 @@ class AdminGroup(models.Model):
 class UserProfile(models.Model):
     username = models.CharField(
         _("username"),
-        max_length = 255,
+        # max_length = 255,
         unique=True, 
         blank=False,
         help_text=_("Required. 255 characters or fewer. Only Alphanumeric characters"),
@@ -84,10 +84,9 @@ class UserProfile(models.Model):
         },
         )
 
-
     email = models.EmailField(
         _("email"),
-        max_length = 225, #change this if need be
+        # max_length = 225, #change this if need be
         blank = False,
         unique = True,
         default = 'user@email.com',
@@ -101,7 +100,7 @@ class UserProfile(models.Model):
 
     first_name  = models.CharField(
         _("first name"),
-          max_length=150, 
+        #   max_length=150, 
           null=True, 
           blank=False, 
           error_messages={
@@ -109,7 +108,7 @@ class UserProfile(models.Model):
           })
     last_name  = models.CharField(
         _("last name"),
-          max_length=150, 
+        #   max_length=150, 
           null=True, 
           blank=False, 
           error_messages={
