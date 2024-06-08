@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const PORT = 3000;
+const distanceRouter = require('./Routers/distanceRouter');
+
+
 
 //home page
 app.get('/', function(req,res){
@@ -10,6 +13,9 @@ app.get('/', function(req,res){
         res.status(500).send(`Error loading home page. Message ${error}`);
     }
 })
+
+//distanceRouter
+app.use(distanceRouter);
 
 app.listen(PORT, function(req,res){
     try{
