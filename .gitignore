@@ -1,3 +1,5 @@
-.env_secrets
-env/
+<<<<<<< HEAD
+node_modules
+=======
 
+>>>>>>> d80262890f008fde27976235b7307eb772e67597
