@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    
+</head>
+<body>
+<div class="container">
+    <h2>Login</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="reset" class="btn btn-primary" value="Reset"> Reset Login Information</button>
+    </form>
+    <a href="{% url 'register' %}" class="btn btn-primary">Register Here</a>
+    
+    
+</div>
+</body>
+</html>
